@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: image-workdrive-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ZOHO_CLIENT_ID
+        sync: false
+      - key: ZOHO_CLIENT_SECRET
+        sync: false
+      - key: ZOHO_REFRESH_TOKEN
+        sync: false
+      - key: ZOHO_ACCOUNTS_URL
+        value: https://accounts.zoho.eu
+      - key: ZOHO_WORKDRIVE_FOLDER_ID
+        sync: false
+      - key: ZOHO_WORKDRIVE_API_URL
+        value: https://workdrive.zoho.eu

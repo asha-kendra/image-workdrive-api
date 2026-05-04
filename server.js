@@ -11,7 +11,8 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || `http://localhost:${PORT}`;
+// RENDER_EXTERNAL_URL is set automatically by Render
+const HOST = process.env.RENDER_EXTERNAL_URL || process.env.HOST || `http://localhost:${PORT}`;
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
