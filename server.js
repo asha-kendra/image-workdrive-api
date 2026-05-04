@@ -108,39 +108,6 @@ app.get("/upload-image", async (req, res) => {
 });
 
 /**
- * GET /test-auth  — temporary, tests Zoho OAuth and shows masked env vars
- */
-app.get("/test-auth", async (req, res) => {
-  const vars = {
-    ZOHO_CLIENT_ID: mask(process.env.ZOHO_CLIENT_ID),
-    ZOHO_CLIENT_SECRET: mask(process.env.ZOHO_CLIENT_SECRET),
-    ZOHO_REFRESH_TOKEN: mask(process.env.ZOHO_REFRESH_TOKEN),
-    ZOHO_ACCOUNTS_URL: process.env.ZOHO_ACCOUNTS_URL,
-    ZOHO_WORKDRIVE_FOLDER_ID: mask(process.env.ZOHO_WORKDRIVE_FOLDER_ID),
-  };
-  try {
-    const axios = require("axios");
-    const params = new URLSearchParams({
-      grant_type: "refresh_token",
-      client_id: process.env.ZOHO_CLIENT_ID,
-      client_secret: process.env.ZOHO_CLIENT_SECRET,
-      refresh_token: process.env.ZOHO_REFRESH_TOKEN,
-    }).toString();
-    const r = await axios.post(process.env.ZOHO_ACCOUNTS_URL + "/oauth/v2/token", params, {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
-    res.json({ vars, oauth: r.data.access_token ? "OK" : r.data });
-  } catch (e) {
-    res.json({ vars, oauth_error: e.response?.data || e.message });
-  }
-});
-
-function mask(val) {
-  if (!val) return "(not set)";
-  return val.slice(0, 6) + "..." + val.slice(-4);
-}
-
-/**
  * GET /health
  */
 app.get("/health", (_req, res) => {
