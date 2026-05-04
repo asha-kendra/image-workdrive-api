@@ -133,4 +133,11 @@ app.listen(PORT, () => {
   console.log(`\nImage → WorkDrive API running at ${HOST}`);
   console.log(`\n  POST ${HOST}/upload-image`);
   console.log(`  Body: { "url": "https://example.com/image.jpg" }\n`);
+
+  if (process.env.NODE_ENV === "production") {
+    setInterval(() => {
+      axios.get(`${HOST}/health`).catch(() => {});
+    }, 14 * 60 * 1000);
+    console.log("Self-ping enabled every 14 minutes to prevent spin-down.");
+  }
 });
